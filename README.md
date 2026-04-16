@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # EduBuddy
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# EduBaddy
+>>>>>>> b8c9d0c9dd6449650f1e409e8eb09b3ec589c013
