@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'user_model.dart';
-import 'doubt_model.dart';
-import 'auth_service.dart';
-import 'doubt_service.dart';
-import 'app_theme.dart';
-import 'doubt_card.dart';
+import '../user_model.dart';
+import '../Drawer/Doubt/doubt_model.dart';
+import '../auth_service.dart';
+import '../Drawer/Doubt/doubt_service.dart';
+import '../app_theme.dart';
+import '../app_drawer.dart';
+import '../Drawer/Doubt/doubt_card.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,10 +28,19 @@ class _ProfileScreenState extends State<ProfileScreen>
   String? _selectedYear;
 
   final List<String> _branches = [
-    'CSE', 'EEE', 'ECE', 'Mechanical', 'Civil', 'Other'
+    'CSE',
+    'EEE',
+    'ECE',
+    'Mechanical',
+    'Civil',
+    'Other'
   ];
   final List<String> _years = [
-    '1st Year', '2nd Year', '3rd Year', '4th Year', 'PG'
+    '1st Year',
+    '2nd Year',
+    '3rd Year',
+    '4th Year',
+    'PG'
   ];
 
   @override
@@ -94,6 +104,19 @@ class _ProfileScreenState extends State<ProfileScreen>
 
     return Scaffold(
       backgroundColor: AppTheme.bgPrimary,
+      drawer: const AppDrawer(),
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgPrimary,
+        elevation: 0,
+        title: Text(
+          'Profile',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: AppTheme.textPrimary,
+          ),
+        ),
+      ),
       body: StreamBuilder<UserModel?>(
         stream: authService.userDataStream(currentUser.uid),
         builder: (context, snapshot) {
@@ -108,7 +131,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           return NestedScrollView(
             headerSliverBuilder: (context, _) => [
               SliverToBoxAdapter(
-                child: _buildProfileHeader(context, userData, authService, currentUser),
+                child: _buildProfileHeader(
+                    context, userData, authService, currentUser),
               ),
               SliverToBoxAdapter(
                 child: _buildStatsRow(userData),
@@ -139,8 +163,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     User currentUser,
   ) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
           colors: [Color(0xFF1A0A35), AppTheme.bgPrimary],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -186,8 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       decoration: BoxDecoration(
                         color: Colors.red.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
-                        border:
-                            Border.all(color: Colors.red.withOpacity(0.3)),
+                        border: Border.all(color: Colors.red.withOpacity(0.3)),
                       ),
                       child: const Icon(
                         Icons.logout_rounded,
@@ -220,9 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       )
                     : Center(
                         child: Text(
-                          (userData?.name ?? 'U')
-                              .substring(0, 1)
-                              .toUpperCase(),
+                          (userData?.name ?? 'U').substring(0, 1).toUpperCase(),
                           style: GoogleFonts.spaceGrotesk(
                             fontSize: 36,
                             fontWeight: FontWeight.w800,
@@ -272,11 +293,9 @@ class _ProfileScreenState extends State<ProfileScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildBadge(
-                    userData?.branch ?? 'CSE', AppTheme.neonPurple),
+                _buildBadge(userData?.branch ?? 'CSE', AppTheme.neonPurple),
                 const SizedBox(width: 8),
-                _buildBadge(userData?.year ?? '1st Year',
-                    AppTheme.neonBlue),
+                _buildBadge(userData?.year ?? '1st Year', AppTheme.neonBlue),
               ],
             ),
           ],
@@ -285,8 +304,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             GestureDetector(
               onTap: () => _saveProfile(authService, currentUser.uid),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 decoration: BoxDecoration(
                   gradient: AppTheme.primaryGradient,
                   borderRadius: BorderRadius.circular(12),
@@ -331,8 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide:
-                const BorderSide(color: AppTheme.neonPurple, width: 2),
+            borderSide: const BorderSide(color: AppTheme.neonPurple, width: 2),
           ),
         ),
       ),
@@ -379,11 +397,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           _buildStatItem('${userData?.answersGiven ?? 0}', 'Answers',
               Icons.check_circle_outline, Colors.green),
           _buildStatDivider(),
-          _buildStatItem(
-              '${userData?.badges.length ?? 0}',
-              'Badges',
-              Icons.military_tech_rounded,
-              const Color(0xFFFFB030)),
+          _buildStatItem('${userData?.badges.length ?? 0}', 'Badges',
+              Icons.military_tech_rounded, const Color(0xFFFFB030)),
         ],
       ),
     );
@@ -472,7 +487,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.help_outline, size: 52, color: AppTheme.textMuted),
+                const Icon(Icons.help_outline, size: 52, color: AppTheme.textMuted),
                 const SizedBox(height: 16),
                 Text(
                   'No doubts posted yet',
@@ -531,12 +546,12 @@ class _ProfileScreenState extends State<ProfileScreen>
           _isEditMode
               ? _buildEditFields(authService, uid)
               : _buildInfoCard([
-                  _buildInfoRow(
-                      Icons.school_outlined, 'College', userData?.college ?? '-'),
+                  _buildInfoRow(Icons.school_outlined, 'College',
+                      userData?.college ?? '-'),
                   _buildInfoRow(
                       Icons.computer, 'Branch', userData?.branch ?? '-'),
-                  _buildInfoRow(
-                      Icons.calendar_today_outlined, 'Year', userData?.year ?? '-'),
+                  _buildInfoRow(Icons.calendar_today_outlined, 'Year',
+                      userData?.year ?? '-'),
                 ]),
           const SizedBox(height: 20),
           _buildSectionHeader('Activity'),
@@ -566,8 +581,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               runSpacing: 8,
               children: userData!.badges.map((badge) {
                 return Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
                     gradient: AppTheme.primaryGradient,
                     borderRadius: BorderRadius.circular(20),
@@ -610,11 +625,10 @@ class _ProfileScreenState extends State<ProfileScreen>
         children: [
           TextField(
             controller: _collegeController,
-            style: GoogleFonts.inter(
-                color: AppTheme.textPrimary, fontSize: 14),
-            decoration: InputDecoration(
+            style: GoogleFonts.inter(color: AppTheme.textPrimary, fontSize: 14),
+            decoration: const InputDecoration(
               labelText: 'College',
-              prefixIcon: const Icon(Icons.school_outlined,
+              prefixIcon: Icon(Icons.school_outlined,
                   size: 18, color: AppTheme.neonPurple),
             ),
           ),
@@ -741,50 +755,51 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   void _showLogoutDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      backgroundColor: AppTheme.bgCard,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: Text(
-        'Sign Out?',
-        style: GoogleFonts.spaceGrotesk(
-          color: AppTheme.textPrimary,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      content: Text(
-        'Are you sure you want to sign out of StudyHive?',
-        style: GoogleFonts.inter(
-          color: AppTheme.textSecondary,
-          fontSize: 14,
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(
-            'Cancel',
-            style: GoogleFonts.inter(color: AppTheme.textSecondary),
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: AppTheme.bgCard,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          'Sign Out?',
+          style: GoogleFonts.spaceGrotesk(
+            color: AppTheme.textPrimary,
+            fontWeight: FontWeight.w700,
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-            _logout(context);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        content: Text(
+          'Are you sure you want to sign out of EduBuddy?',
+          style: GoogleFonts.inter(
+            color: AppTheme.textSecondary,
+            fontSize: 14,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.inter(color: AppTheme.textSecondary),
             ),
           ),
-          child: Text(
-            'Sign Out',
-            style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w700),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _logout(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(
+              'Sign Out',
+              style: GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w700),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}}
+        ],
+      ),
+    );
+  }
+}

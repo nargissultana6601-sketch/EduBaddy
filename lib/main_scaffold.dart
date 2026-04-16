@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app_theme.dart';
-import 'home_screen.dart';
-import 'community_screen.dart';
-import 'textbook_screen.dart';
-import 'profile_screen.dart';
-import 'ask_doubt_screen.dart'hide AppTheme;
+import 'screen/home_screen.dart';
+import 'screen/community_screen.dart';
+import 'screen/textbook_screen.dart';
+import 'screen/profile_screen.dart';
+import 'screen/ask_doubt_screen.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key});
@@ -55,7 +55,9 @@ class _MainScaffoldState extends State<MainScaffold>
   }
 
   void _onTabChange(int index) {
-    setState(() => _currentIndex = index);
+    setState(() {
+      _currentIndex = index;
+    });
     _fabController.reset();
     _fabController.forward();
   }
@@ -73,11 +75,12 @@ class _MainScaffoldState extends State<MainScaffold>
           ? ScaleTransition(
               scale: _fabAnimation,
               child: GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const AskDoubtScreen()),
-                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AskDoubtScreen()),
+                  );
+                },
                 child: Container(
                   width: 56,
                   height: 56,
@@ -125,7 +128,9 @@ class _MainScaffoldState extends State<MainScaffold>
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     gradient: isSelected ? AppTheme.primaryGradient : null,
                     color: isSelected ? null : Colors.transparent,
@@ -136,8 +141,7 @@ class _MainScaffoldState extends State<MainScaffold>
                       ? Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(item.icon,
-                                size: 20, color: Colors.white),
+                            Icon(item.icon, size: 20, color: Colors.white),
                             const SizedBox(width: 6),
                             Text(
                               item.label,
@@ -167,5 +171,9 @@ class _MainScaffoldState extends State<MainScaffold>
 class _NavItem {
   final IconData icon;
   final String label;
-  const _NavItem({required this.icon, required this.label});
+  
+  const _NavItem({
+    required this.icon,
+    required this.label,
+  });
 }

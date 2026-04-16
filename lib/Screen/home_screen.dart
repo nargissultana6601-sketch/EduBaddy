@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'doubt_model.dart'; // Ensure this file exists and contains the DoubtModel class
-import 'auth_service.dart'; // Ensure this file exists and contains the AuthService class
-import 'doubt_service.dart'; // Ensure this file exists and contains the DoubtService class
-import 'app_theme.dart'; // Ensure this file exists and contains the AppTheme class
-import 'animated_subject_text.dart'; // Ensure this file exists and contains the AnimatedSubjectText widget
-import 'doubt_card.dart'; // Ensure this file exists and contains the DoubtCard widget
-import 'ask_doubt_screen.dart' hide AppTheme, DoubtSubject, DoubtInputType; // Ensure this file exists and contains the AskDoubtScreen widget
+import '../Drawer/Doubt/doubt_model.dart'; // Ensure this file exists and contains the DoubtModel class
+// Ensure this file exists and contains the AuthService class
+import '../Drawer/Doubt/doubt_service.dart'; // Ensure this file exists and contains the DoubtService class
+import '../app_theme.dart'; // Ensure this file exists and contains the AppTheme class
+import '../app_drawer.dart';
+import '../animated_subject_text.dart'; // Ensure this file exists and contains the AnimatedSubjectText widget
+import '../Drawer/Doubt/doubt_card.dart'; // Ensure this file exists and contains the DoubtCard widget
+import 'ask_doubt_screen.dart'; // Ensure this file exists and contains the AskDoubtScreen widget
 import 'notification_screen.dart'; // Ensure this file exists and contains the NotificationScreen widget
-import 'notification_service.dart'; // Ensure this file exists and contains the NotificationService class
+import '../notification_service.dart'; // Ensure this file exists and contains the NotificationService class
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,13 +50,13 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    
     final doubtService = context.read<DoubtService>();
     final notificationService = context.read<NotificationService>();
     final currentUser = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: AppTheme.bgPrimary,
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: FadeTransition(
           opacity: _headerFade,
@@ -123,6 +124,17 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
       child: Row(
         children: [
+          Builder(
+            builder: (context) {
+              return IconButton(
+                padding: const EdgeInsets.all(0),
+                icon:
+                    const Icon(Icons.menu_rounded, color: AppTheme.textPrimary),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              );
+            },
+          ),
+          const SizedBox(width: 4),
           // Logo
           Container(
             width: 38,
@@ -131,12 +143,12 @@ class _HomeScreenState extends State<HomeScreen>
               gradient: AppTheme.primaryGradient,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.school_rounded,
-                size: 20, color: Colors.white),
+            child:
+                const Icon(Icons.school_rounded, size: 20, color: Colors.white),
           ),
           const SizedBox(width: 10),
           Text(
-            'StudyHive',
+            'EduBuddy',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -259,8 +271,8 @@ class _HomeScreenState extends State<HomeScreen>
                 decoration: BoxDecoration(
                   color: AppTheme.neonPurple.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: AppTheme.neonPurple.withOpacity(0.3)),
+                  border:
+                      Border.all(color: AppTheme.neonPurple.withOpacity(0.3)),
                 ),
                 child: Text(
                   '🎓 For Students',
@@ -481,8 +493,8 @@ class _HomeScreenState extends State<HomeScreen>
           final subject = _filters[index - 1];
           final isSelected = _selectedFilter == subject;
           return GestureDetector(
-            onTap: () => setState(
-                () => _selectedFilter = isSelected ? null : subject),
+            onTap: () =>
+                setState(() => _selectedFilter = isSelected ? null : subject),
             child: _buildChip(subject.subjectLabel, isSelected,
                 color: subject.subjectColor),
           );
@@ -497,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen>
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       decoration: BoxDecoration(
         color: isSelected
-           ? (color ?? AppTheme.neonPurple).withValues(alpha: 0.2)
+            ? (color ?? AppTheme.neonPurple).withValues(alpha: 0.2)
             : AppTheme.bgCard,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
@@ -555,7 +567,7 @@ class _HomeScreenState extends State<HomeScreen>
                 padding: const EdgeInsets.all(60),
                 child: Column(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.question_answer_outlined,
                       size: 60,
                       color: AppTheme.textMuted,

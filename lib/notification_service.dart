@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 class NotificationItem {
   final String id;
@@ -49,6 +51,7 @@ class NotificationItem {
 
 class NotificationService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Stream<List<NotificationItem>> getNotifications(String userId) {
     return _firestore
@@ -74,10 +77,9 @@ class NotificationService {
   }
 
   Future<void> markAsRead(String notificationId) async {
-    await _firestore
-        .collection('notifications')
-        .doc(notificationId)
-        .update({'isRead': true});
+    await _firestore.collection('notifications').doc(notificationId).update({
+      'isRead': true,
+    });
   }
 
   Future<void> markAllAsRead(String userId) async {
@@ -105,7 +107,7 @@ class NotificationService {
     final notification = NotificationItem(
       id: '',
       userId: userId,
-title: title,
+      title: title,
       body: body,
       type: type,
       relatedId: relatedId,
@@ -113,5 +115,60 @@ title: title,
     );
 
     await _firestore.collection('notifications').add(notification.toMap());
+
+    // Send push notification
+    await _sendPushNotification(userId, title, body);
   }
+
+  Future<void> _sendPushNotification(
+      String userId, String title, String body) async {
+    try {
+      // Get user's device token
+      final userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        final token = userDoc.data()?['fcmToken'] as String?;
+        if (token != null) {
+          // For now, we log the token. In production, call your server-side FCM API.
+          debugPrint('Would send push notification to token: $token');
+          debugPrint('Title: $title');
+          debugPrint('Body: $body');
+        }
+      }
+    } catch (e, st) {
+      debugPrint('Error sending push notification: $e');
+      debugPrint(st.toString());
+    }
+  }
+
+  Future<void> saveDeviceToken(String userId) async {
+    try {
+      final token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        await _firestore.collection('users').doc(userId).update({
+          'fcmToken': token,
+        });
+      }
+    } catch (e, st) {
+      debugPrint('Error saving device token: $e');
+      debugPrint(st.toString());
+    }
+  }
+
+  Future<void> initializeNotifications() async {
+    // Request permission for notifications
+    await _firebaseMessaging.requestPermission();
+
+    // Handle background messages
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    // Handle foreground messages
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      debugPrint('Received foreground message: ${message.notification?.title}');
+      // You can show a local notification here using flutter_local_notifications
+    });
+  }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  debugPrint('Handling background message: ${message.messageId}');
 }

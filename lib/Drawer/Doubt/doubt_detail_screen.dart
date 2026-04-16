@@ -6,8 +6,8 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'doubt_model.dart';
 import 'answer_model.dart';
 import 'doubt_service.dart';
-import 'auth_service.dart';
-import 'app_theme.dart';
+import '../../auth_service.dart';
+import '../../app_theme.dart';
 
 class DoubtDetailScreen extends StatefulWidget {
   final DoubtModel doubt;
@@ -422,7 +422,7 @@ class _DoubtDetailScreenState extends State<DoubtDetailScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 48),
                 child: Column(
                   children: [
-                    Icon(Icons.forum_outlined,
+                    const Icon(Icons.forum_outlined,
                         size: 52, color: AppTheme.textMuted),
                     const SizedBox(height: 14),
                     Text(

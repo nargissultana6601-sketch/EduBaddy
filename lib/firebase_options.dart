@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '70267147150',
     projectId: 'doubt-solving-app-97c3d',
     storageBucket: 'doubt-solving-app-97c3d.firebasestorage.app',
-    iosBundleId: 'com.example.newapp11',
+    iosBundleId: 'com.example.edubuddy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '70267147150',
     projectId: 'doubt-solving-app-97c3d',
     storageBucket: 'doubt-solving-app-97c3d.firebasestorage.app',
-    iosBundleId: 'com.example.newapp11',
+    iosBundleId: 'com.example.edubuddy',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

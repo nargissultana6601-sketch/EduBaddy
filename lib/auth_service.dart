@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'user_model.dart';
+import 'notification_service.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final NotificationService? _notificationService;
+
+  AuthService([this._notificationService]);
 
   // Stream of auth state
   Stream<User?> get authStateChanges => _auth.authStateChanges();
@@ -21,7 +26,7 @@ class AuthService {
       }
       return null;
     } catch (e) {
-      print('Error getting user data: $e');
+      debugPrint('Error getting user data: $e');
       return null;
     }
   }
@@ -67,10 +72,7 @@ class AuthService {
         lastLogin: DateTime.now(),
       );
 
-      await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .set(userModel.toMap());
+      await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
 
       return userModel;
     } on FirebaseAuthException catch (e) {
@@ -96,6 +98,9 @@ class AuthService {
       await _firestore.collection('users').doc(user.uid).update({
         'lastLogin': Timestamp.now(),
       });
+
+      // Save device token for push notifications
+      await _notificationService?.saveDeviceToken(user.uid);
 
       return getUserData(user.uid);
     } on FirebaseAuthException catch (e) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'auth_service.dart';
-import 'app_theme.dart';
-import 'main_scaffold.dart';
+import '../auth_service.dart';
+import '../app_theme.dart';
+import 'app_launcher_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -33,10 +33,19 @@ class _SignupScreenState extends State<SignupScreen>
   final _authService = AuthService();
 
   final List<String> _branches = [
-    'CSE', 'EEE', 'ECE', 'Mechanical', 'Civil', 'Other'
+    'CSE',
+    'EEE',
+    'ECE',
+    'Mechanical',
+    'Civil',
+    'Other'
   ];
   final List<String> _years = [
-    '1st Year', '2nd Year', '3rd Year', '4th Year', 'PG'
+    '1st Year',
+    '2nd Year',
+    '3rd Year',
+    '4th Year',
+    'PG'
   ];
 
   @override
@@ -46,8 +55,7 @@ class _SignupScreenState extends State<SignupScreen>
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _fadeAnim =
-        CurvedAnimation(parent: _animController, curve: Curves.easeOut);
+    _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
     _animController.forward();
   }
 
@@ -84,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen>
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const MainScaffold(),
+            pageBuilder: (_, __, ___) => const AppLauncherScreen(),
             transitionsBuilder: (_, animation, __, child) =>
                 FadeTransition(opacity: animation, child: child),
             transitionDuration: const Duration(milliseconds: 500),
@@ -164,14 +172,15 @@ class _SignupScreenState extends State<SignupScreen>
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    Expanded(child: _buildDropdown('Branch', _branches,
-                        _selectedBranch, (v) {
+                    Expanded(
+                        child: _buildDropdown(
+                            'Branch', _branches, _selectedBranch, (v) {
                       setState(() => _selectedBranch = v!);
                     })),
                     const SizedBox(width: 12),
                     Expanded(
-                        child: _buildDropdown(
-                            'Year', _years, _selectedYear, (v) {
+                        child:
+                            _buildDropdown('Year', _years, _selectedYear, (v) {
                       setState(() => _selectedYear = v!);
                     })),
                   ],
@@ -228,7 +237,7 @@ class _SignupScreenState extends State<SignupScreen>
           shaderCallback: (bounds) =>
               AppTheme.primaryGradient.createShader(bounds),
           child: Text(
-            'Join\nStudyHive ✨',
+            'Join\nEduBuddy ✨',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 36,
               fontWeight: FontWeight.w800,
@@ -308,8 +317,8 @@ class _SignupScreenState extends State<SignupScreen>
       style: GoogleFonts.inter(color: AppTheme.textPrimary, fontSize: 15),
       decoration: InputDecoration(
         hintText: hint,
-        prefixIcon:
-            const Icon(Icons.lock_outline, size: 20, color: AppTheme.neonPurple),
+        prefixIcon: const Icon(Icons.lock_outline,
+            size: 20, color: AppTheme.neonPurple),
         suffixIcon: IconButton(
           icon: Icon(
             obscure ? Icons.visibility_off : Icons.visibility,
@@ -386,8 +395,7 @@ class _SignupScreenState extends State<SignupScreen>
         width: double.infinity,
         height: 56,
         decoration: BoxDecoration(
-          gradient:
-              _isLoading ? null : AppTheme.primaryGradient,
+          gradient: _isLoading ? null : AppTheme.primaryGradient,
           color: _isLoading ? AppTheme.bgCard : null,
           borderRadius: BorderRadius.circular(16),
           boxShadow: _isLoading ? null : AppTheme.neonShadow,

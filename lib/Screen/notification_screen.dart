@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'notification_service.dart';
-import 'app_theme.dart';
+import '../notification_service.dart';
+import '../app_theme.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
@@ -36,6 +36,28 @@ class NotificationScreen extends StatelessWidget {
         return const Color(0xFFFF30AA);
       default:
         return AppTheme.textSecondary;
+    }
+  }
+
+  void _handleNotificationTap(BuildContext context, NotificationItem notif) {
+    // Navigate based on notification type and relatedId
+    if (notif.relatedId != null) {
+      switch (notif.type) {
+        case 'answer':
+        case 'upvote':
+        case 'accept':
+          // Navigate to doubt detail screen
+          Navigator.pushNamed(context, '/doubt-detail',
+              arguments: notif.relatedId);
+          break;
+        case 'community':
+          // Navigate to community screen
+          Navigator.pushNamed(context, '/community');
+          break;
+        default:
+          // Stay on notification screen
+          break;
+      }
     }
   }
 
@@ -154,6 +176,7 @@ class NotificationScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         notifService.markAsRead(notif.id);
+                        _handleNotificationTap(context, notif);
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
@@ -173,8 +196,7 @@ class NotificationScreen extends StatelessWidget {
                                 color: _getColor(notif.type).withOpacity(0.15),
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color:
-                                      _getColor(notif.type).withOpacity(0.3),
+                                  color: _getColor(notif.type).withOpacity(0.3),
                                 ),
                               ),
                               child: Icon(

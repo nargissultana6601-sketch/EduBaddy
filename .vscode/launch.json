@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "type": "dart",
+            "request": "launch",
+            "name": "Launch EduBuddy",
+            "program": "${workspaceFolder}/${input:entryFile}",
+            "cwd": "${workspaceFolder}",
+            "flutterMode": "debug"
+        }
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "entryFile",
+            "description": "Enter the path to the entry file (e.g., lib/main.dart)"
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_theme.dart';
 
 class AnimatedSubjectText extends StatefulWidget {
   const AnimatedSubjectText({super.key});
@@ -13,12 +12,12 @@ class AnimatedSubjectText extends StatefulWidget {
 class _AnimatedSubjectTextState extends State<AnimatedSubjectText>
     with SingleTickerProviderStateMixin {
   final List<Map<String, dynamic>> _subjects = [
-    {'label': 'CSE?', 'color': Color(0xFF9B30FF)},
-    {'label': 'Physics?', 'color': Color(0xFF30AAFF)},
-    {'label': 'Chemistry?', 'color': Color(0xFF30FFB0)},
-    {'label': 'EEE?', 'color': Color(0xFFFFB030)},
-    {'label': 'English?', 'color': Color(0xFFFF6030)},
-    {'label': 'Maths?', 'color': Color(0xFFFF30AA)},
+    {'label': 'CSE?', 'color': const Color(0xFF9B30FF)},
+    {'label': 'Physics?', 'color': const Color(0xFF30AAFF)},
+    {'label': 'Chemistry?', 'color': const Color(0xFF30FFB0)},
+    {'label': 'EEE?', 'color': const Color(0xFFFFB030)},
+    {'label': 'English?', 'color': const Color(0xFFFF6030)},
+    {'label': 'Maths?', 'color': const Color(0xFFFF30AA)},
   ];
 
   int _currentIndex = 0;

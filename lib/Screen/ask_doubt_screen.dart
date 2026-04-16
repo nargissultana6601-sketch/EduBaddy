@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'doubt_model.dart';
-import 'auth_service.dart';
-import 'doubt_service.dart';
-import 'app_theme.dart';
+import '../Drawer/Doubt/doubt_model.dart';
+import '../auth_service.dart';
+import '../Drawer/Doubt/doubt_service.dart';
+import '../app_theme.dart';
 
 class AskDoubtScreen extends StatefulWidget {
   final String? defaultInputType;
@@ -28,7 +28,7 @@ class _AskDoubtScreenState extends State<AskDoubtScreen>
   DoubtInputType _inputType = DoubtInputType.text;
   File? _imageFile;
   bool _isPosting = false;
-  List<String> _tags = [];
+  final List<String> _tags = [];
   final _tagController = TextEditingController();
 
   late AnimationController _animController;
@@ -432,7 +432,7 @@ class _AskDoubtScreenState extends State<AskDoubtScreen>
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.add_photo_alternate_outlined,
                         size: 48,
                         color: AppTheme.textMuted,
@@ -537,7 +537,7 @@ class _AskDoubtScreenState extends State<AskDoubtScreen>
                     const SizedBox(width: 6),
                     GestureDetector(
                       onTap: () => setState(() => _tags.remove(tag)),
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         size: 14,
                         color: AppTheme.neonPurpleLight,

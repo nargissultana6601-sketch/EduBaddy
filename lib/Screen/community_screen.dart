@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'doubt_model.dart';
-import 'doubt_service.dart';
-import 'app_theme.dart';
-import 'doubt_card.dart';
-import 'ask_doubt_screen.dart'hide AppTheme, DoubtSubject;
+import '../Drawer/Doubt/doubt_model.dart';
+import '../Drawer/Doubt/doubt_service.dart';
+import '../app_theme.dart';
+import '../app_drawer.dart';
+import '../Drawer/Doubt/doubt_card.dart';
+import 'ask_doubt_screen.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -21,13 +22,48 @@ class _CommunityScreenState extends State<CommunityScreen>
   DoubtSubject? _activeSubject;
 
   final List<Map<String, dynamic>> _subjects = [
-    {'label': 'All', 'icon': Icons.all_inclusive, 'color': AppTheme.neonPurple, 'subject': null},
-    {'label': 'CSE', 'icon': Icons.computer, 'color': Color(0xFF9B30FF), 'subject': DoubtSubject.cse},
-    {'label': 'Physics', 'icon': Icons.science, 'color': Color(0xFF30AAFF), 'subject': DoubtSubject.physics},
-    {'label': 'Chemistry', 'icon': Icons.biotech, 'color': Color(0xFF30FFB0), 'subject': DoubtSubject.chemistry},
-    {'label': 'EEE', 'icon': Icons.flash_on, 'color': Color(0xFFFFB030), 'subject': DoubtSubject.eee},
-    {'label': 'English', 'icon': Icons.menu_book, 'color': Color(0xFFFF6030), 'subject': DoubtSubject.english},
-    {'label': 'Maths', 'icon': Icons.calculate, 'color': Color(0xFFFF30AA), 'subject': DoubtSubject.mathematics},
+    {
+      'label': 'All',
+      'icon': Icons.all_inclusive,
+      'color': AppTheme.neonPurple,
+      'subject': null
+    },
+    {
+      'label': 'CSE',
+      'icon': Icons.computer,
+      'color': const Color(0xFF9B30FF),
+      'subject': DoubtSubject.cse
+    },
+    {
+      'label': 'Physics',
+      'icon': Icons.science,
+      'color': const Color(0xFF30AAFF),
+      'subject': DoubtSubject.physics
+    },
+    {
+      'label': 'Chemistry',
+      'icon': Icons.biotech,
+      'color': const Color(0xFF30FFB0),
+      'subject': DoubtSubject.chemistry
+    },
+    {
+      'label': 'EEE',
+      'icon': Icons.flash_on,
+      'color': const Color(0xFFFFB030),
+      'subject': DoubtSubject.eee
+    },
+    {
+      'label': 'English',
+      'icon': Icons.menu_book,
+      'color': const Color(0xFFFF6030),
+      'subject': DoubtSubject.english
+    },
+    {
+      'label': 'Maths',
+      'icon': Icons.calculate,
+      'color': const Color(0xFFFF30AA),
+      'subject': DoubtSubject.mathematics
+    },
   ];
 
   @override
@@ -49,6 +85,7 @@ class _CommunityScreenState extends State<CommunityScreen>
 
     return Scaffold(
       backgroundColor: AppTheme.bgPrimary,
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -61,9 +98,11 @@ class _CommunityScreenState extends State<CommunityScreen>
           body: TabBarView(
             controller: _tabController,
             children: [
-              _buildDoubtsFeed(doubtService, currentUser?.uid ?? '', 'trending'),
+              _buildDoubtsFeed(
+                  doubtService, currentUser?.uid ?? '', 'trending'),
               _buildDoubtsFeed(doubtService, currentUser?.uid ?? '', 'recent'),
-              _buildDoubtsFeed(doubtService, currentUser?.uid ?? '', 'unsolved'),
+              _buildDoubtsFeed(
+                  doubtService, currentUser?.uid ?? '', 'unsolved'),
             ],
           ),
         ),
@@ -80,6 +119,17 @@ class _CommunityScreenState extends State<CommunityScreen>
         children: [
           Row(
             children: [
+              Builder(
+                builder: (context) {
+                  return IconButton(
+                    padding: const EdgeInsets.all(0),
+                    icon: const Icon(Icons.menu_rounded,
+                        color: AppTheme.textPrimary),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +154,8 @@ class _CommunityScreenState extends State<CommunityScreen>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   gradient: AppTheme.primaryGradient,
                   borderRadius: BorderRadius.circular(20),
@@ -271,7 +322,7 @@ class _CommunityScreenState extends State<CommunityScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.question_answer_outlined,
+                const Icon(Icons.question_answer_outlined,
                     size: 52, color: AppTheme.textMuted),
                 const SizedBox(height: 16),
                 Text(
@@ -321,6 +372,7 @@ class _CommunityScreenState extends State<CommunityScreen>
       ),
     );
   }
-    }
+}
+
 /// No changes are needed in the `$SELECTION_PLACEHOLDER$` section as it is currently empty.
 /// If you have specific functionality or code to add, please provide more details.

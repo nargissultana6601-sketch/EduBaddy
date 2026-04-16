@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'doubt_model.dart';
-import 'app_theme.dart';
+import '../../app_theme.dart';
 import 'doubt_detail_screen.dart';
  
 class DoubtCard extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_theme.dart';
+import '../app_theme.dart';
 import 'login_screen.dart';
-import 'main_scaffold.dart';
+import 'app_launcher_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            user != null ? const MainScaffold() : const LoginScreen(),
+            user != null ? const AppLauncherScreen() : const LoginScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -128,8 +128,8 @@ class _SplashScreenState extends State<SplashScreen>
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.neonPurple
-                                  .withValues(alpha: 0.5 * _glowAnimation.value),
+                              color: AppTheme.neonPurple.withValues(
+                                  alpha: 0.5 * _glowAnimation.value),
                               blurRadius: 30,
                               spreadRadius: 5,
                             ),
@@ -153,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Column(
                       children: [
                         Text(
-                          'StudyHive',
+                          'EduBuddy',
                           style: GoogleFonts.spaceGrotesk(
                             fontSize: 36,
                             fontWeight: FontWeight.w800,

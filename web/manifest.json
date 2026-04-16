@@ -1,6 +1,6 @@
 {
-    "name": "newapp11",
-    "short_name": "newapp11",
+    "name": "EduBuddy",
+    "short_name": "EduBuddy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

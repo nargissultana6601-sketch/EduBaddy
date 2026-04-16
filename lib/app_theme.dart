@@ -35,7 +35,7 @@ class AppTheme {
   );
 
   static const LinearGradient purpleGlow = LinearGradient(
-    colors: [Color(0xFF9B30FF22), Color(0xFF9B30FF00)],
+    colors: [Color(0xff9b30ff22), Color(0xff9b30ff00)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
@@ -53,7 +53,7 @@ class AppTheme {
     BoxShadow(
       color: Colors.black.withOpacity(0.5),
       blurRadius: 12,
-      offset: Offset(0, 4),
+      offset: const Offset(0, 4),
     ),
     BoxShadow(
       color: neonPurple.withOpacity(0.05),
@@ -71,11 +71,9 @@ class AppTheme {
         primary: neonPurple,
         secondary: neonPink,
         surface: bgSecondary,
-        background: bgPrimary,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: textPrimary,
-        onBackground: textPrimary,
       ),
       textTheme: TextTheme(
         displayLarge: GoogleFonts.spaceGrotesk(

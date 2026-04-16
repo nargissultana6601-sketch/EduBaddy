@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'app_theme.dart';
+import '../app_theme.dart';
+import '../app_drawer.dart';
 
 class TextbookScreen extends StatelessWidget {
   const TextbookScreen({super.key});
@@ -17,6 +18,19 @@ class TextbookScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgPrimary,
+      drawer: const AppDrawer(),
+      appBar: AppBar(
+        backgroundColor: AppTheme.bgPrimary,
+        elevation: 0,
+        title: Text(
+          'Textbooks',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: AppTheme.textPrimary,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +70,8 @@ class TextbookScreen extends StatelessWidget {
                     subtitle: '2nd Year - 1st Semester',
                     icon: Icons.computer_rounded,
                     color: const Color(0xFF9B30FF),
-                    url: 'https://drive.google.com/drive/folders/1TOmOT1HWA7_12XHmkNVKMmyasuQhOBpr?usp=drive_link',
+                    url:
+                        'https://drive.google.com/drive/folders/1TOmOT1HWA7_12XHmkNVKMmyasuQhOBpr?usp=drive_link',
                     onTap: _launchUrl,
                   ),
                 ],

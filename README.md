@@ -1,4 +1,4 @@
-# newapp11
+# EduBuddy
 
 A new Flutter project.
 

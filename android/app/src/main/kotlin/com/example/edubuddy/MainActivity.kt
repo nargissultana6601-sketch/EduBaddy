@@ -1,4 +1,4 @@
-package com.example.newapp11
+package com.example.edubuddy
 
 import io.flutter.embedding.android.FlutterActivity
 

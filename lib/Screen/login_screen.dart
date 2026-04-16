@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'auth_service.dart';
-import 'app_theme.dart';
-import 'main_scaffold.dart';
+import '../auth_service.dart';
+import '../app_theme.dart';
+import 'app_launcher_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen>
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const MainScaffold(),
+            pageBuilder: (_, __, ___) => const AppLauncherScreen(),
             transitionsBuilder: (_, animation, __, child) =>
                 FadeTransition(opacity: animation, child: child),
             transitionDuration: const Duration(milliseconds: 500),
@@ -187,9 +187,9 @@ class _LoginScreenState extends State<LoginScreen>
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.inter(color: AppTheme.textPrimary, fontSize: 15),
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Email address',
-        prefixIcon: const Icon(Icons.email_outlined, size: 20),
+        prefixIcon: Icon(Icons.email_outlined, size: 20),
         prefixIconColor: AppTheme.neonPurple,
       ),
       validator: (value) {
